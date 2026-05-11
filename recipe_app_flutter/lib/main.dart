@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'screens/category_list.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +21,11 @@ class MainApp extends StatelessWidget {
           backgroundColor: Colors.orange,
           titleTextStyle: TextStyle(color: Colors.black, fontSize: 20),
         ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: Colors.orange,
+        ), // 追加
       ),
-      home: Scaffold(
-        appBar: AppBar(title: const Text('タイトル')),
-        body: Center(child: Text('メイン')),
-      ),
+      home: const CategoryListScreen(), // 修正
     );
   }
 }
