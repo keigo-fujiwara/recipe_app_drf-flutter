@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io'; // 追加
 import 'package:http/http.dart' as http;
 import '../models/category.dart';
 
@@ -18,5 +19,19 @@ class CategoryService {
     return jsonData
         .map((json) => Category.fromJson(json as Map<String, dynamic>))
         .toList();
+  }
+
+  Future<Category> create(String name) async {
+    final response = await http.post(
+      baseUrl.replace(path: '${baseUrl.path}/categories/'),
+      headers: {HttpHeaders.contentTypeHeader: ContentType.json.value},
+      body: jsonEncode({'name': name}),
+    );
+
+    if (response.statusCode != 201) {
+      throw Exception('カテゴリを作成するのに失敗しました');
+    }
+
+    return Category.fromJson(jsonDecode(response.body));
   }
 }
