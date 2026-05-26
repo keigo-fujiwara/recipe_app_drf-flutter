@@ -104,7 +104,15 @@ class _CategoryTable extends ConsumerWidget {
                     children: [
                       IconButton(
                         icon: const Icon(Icons.edit),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  CategoryFormScreen(category: category),
+                            ),
+                          );
+                        },
                       ),
                       IconButton(
                         icon: const Icon(Icons.delete),

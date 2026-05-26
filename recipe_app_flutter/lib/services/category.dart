@@ -34,4 +34,16 @@ class CategoryService {
 
     return Category.fromJson(jsonDecode(response.body));
   }
+
+  Future<void> update(Category category) async {
+    final response = await http.put(
+      baseUrl.replace(path: '${baseUrl.path}/categories/${category.id}/'),
+      headers: {HttpHeaders.contentTypeHeader: ContentType.json.value},
+      body: jsonEncode(category.toJson()),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('カテゴリの更新に失敗しました');
+    }
+  }
 }
