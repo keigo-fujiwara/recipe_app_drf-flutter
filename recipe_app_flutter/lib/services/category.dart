@@ -46,4 +46,14 @@ class CategoryService {
       throw Exception('カテゴリの更新に失敗しました');
     }
   }
+
+  Future<void> delete(int categoryId) async {
+    final response = await http.delete(
+      baseUrl.replace(path: '${baseUrl.path}/categories/$categoryId/'),
+    );
+
+    if (response.statusCode != 204) {
+      throw Exception('カテゴリの削除に失敗しました');
+    }
+  }
 }
