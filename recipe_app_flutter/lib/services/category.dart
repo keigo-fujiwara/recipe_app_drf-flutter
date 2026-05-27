@@ -34,4 +34,26 @@ class CategoryService {
 
     return Category.fromJson(jsonDecode(response.body));
   }
+
+  Future<void> update(Category category) async {
+    final response = await http.put(
+      baseUrl.replace(path: '${baseUrl.path}/categories/${category.id}/'),
+      headers: {HttpHeaders.contentTypeHeader: ContentType.json.value},
+      body: jsonEncode(category.toJson()),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('カテゴリの更新に失敗しました');
+    }
+  }
+
+  Future<void> delete(int categoryId) async {
+    final response = await http.delete(
+      baseUrl.replace(path: '${baseUrl.path}/categories/$categoryId/'),
+    );
+
+    if (response.statusCode != 204) {
+      throw Exception('カテゴリの削除に失敗しました');
+    }
+  }
 }

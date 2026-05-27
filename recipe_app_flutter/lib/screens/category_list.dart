@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/category.dart';
 import '../providers/category.dart';
+import '../services/category.dart';
 import 'category_form.dart';
 
 class CategoryListScreen extends StatelessWidget {
@@ -104,11 +105,32 @@ class _CategoryTable extends ConsumerWidget {
                     children: [
                       IconButton(
                         icon: const Icon(Icons.edit),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  CategoryFormScreen(category: category),
+                            ),
+                          );
+                        },
                       ),
                       IconButton(
                         icon: const Icon(Icons.delete),
-                        onPressed: () {},
+                        onPressed: () async {
+                          try {
+                            await CategoryService().delete(category.id);
+                            ref.invalidate(categoryProvider);
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('カテゴリを削除しました')),
+                            );
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('エラーが発生しました: $e')),
+                            );
+                          }
+                        },
                       ),
                     ],
                   ),
