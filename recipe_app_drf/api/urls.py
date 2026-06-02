@@ -5,7 +5,13 @@ from . import views
 
 router = DefaultRouter()
 router.register('categories', views.CategoryViewSet)
+router.register('recipes', views.RecipeViewSet) # 追記
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    path(
+        "categories/<int:category_id>/recipes/",
+        views.RecipeListView.as_view(),
+        name="recipes",
+    ), # 追記
 ]
