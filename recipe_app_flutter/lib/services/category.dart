@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io'; // 追加
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../models/category.dart';
 
