@@ -13,5 +13,5 @@ urlpatterns = [
         "categories/<int:category_id>/recipes/",
         views.RecipeListView.as_view(),
         name="recipes",
-    ), # 追記
+    ), 
 ]
