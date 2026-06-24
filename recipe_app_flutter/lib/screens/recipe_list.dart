@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/recipe.dart';
 import '../providers/recipe.dart';
+import '../services/recipe.dart';
 import 'recipe_form.dart';
 
 class RecipeListScreen extends StatelessWidget {
@@ -106,11 +107,32 @@ class _RecipeTable extends ConsumerWidget {
                     children: [
                       IconButton(
                         icon: const Icon(Icons.edit),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  RecipeFormScreen(recipe: recipe),
+                            ),
+                          );
+                        },
                       ),
                       IconButton(
                         icon: const Icon(Icons.delete),
-                        onPressed: () {},
+                        onPressed: () async {
+                          try {
+                            await RecipeService().delete(recipe.id);
+                            ref.invalidate(recipeProvider);
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('レシピを削除しました')),
+                            );
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('エラーが発生しました: $e')),
+                            );
+                          }
+                        },
                       ),
                     ],
                   ),
